@@ -2,12 +2,12 @@ namespace Familestan.Core.Entities
 {
     public class PostWord : BaseEntity
     {
-        public long? PostWordId { get; set; } // شناسه‌ی نگاشت بین پست و کلمه
-        public long? PostId { get; set; } // ارتباط با پست
-        public long? WordId { get; set; } // ارتباط با کلمه
+        public long PostWordPostId { get; set; }
+        public required Post PostWordPost { get; set; }
 
-        // روابط
-        public Post? Post { get; set; }
-        public Word? Word { get; set; }
+        public long PostWordWordId { get; set; }
+        public required Word PostWordWord { get; set; }
+
+        public int PostWordFrequency { get; set; } // تعداد تکرار کلمه در پست
     }
 }

@@ -2,7 +2,9 @@ namespace Familestan.Core.Entities
 {
     public class Word : BaseEntity
     {
-        public long? WordId { get; set; } // شناسه‌ی یکتا برای هر کلمه
-        public string? WordText { get; set; } = string.Empty; // خود کلمه
+        public long WordId { get; set; }
+        public required string WordText { get; set; } // متن کلمه
+
+        public ICollection<PostWord> WordPostWords { get; set; } = new List<PostWord>();
     }
 }

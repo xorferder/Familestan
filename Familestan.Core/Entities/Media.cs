@@ -2,9 +2,12 @@ namespace Familestan.Core.Entities
 {
     public class Media : BaseEntity
     {
-        public long? MediaPostId { get; set; }
-        public Post? MediaPost { get; set; }
-        public string? MediaUrl { get; set; } = string.Empty;
-        public string? MediaType { get; set; } = string.Empty;
+        public long MediaId { get; set; }
+        
+        public required string MediaUrl { get; set; }
+        public required string MediaType { get; set; }
+        
+        public long MediaPostId { get; set; }
+        public required Post MediaPost { get; set; }
     }
 }

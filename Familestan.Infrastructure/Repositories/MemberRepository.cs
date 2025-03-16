@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using Familestan.Core.Entities;
 using Familestan.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Familestan.Infrastructure.Repositories
 {
@@ -8,10 +8,10 @@ namespace Familestan.Infrastructure.Repositories
     {
         public MemberRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Member>> GetFamilyMembersAsync(long userId)
+        public async Task<Member?> GetByUserIdAsync(long userId)
         {
-            return await _dbSet.Where(m => m.MemberUserId == userId && (m.IsDeleted == false)).ToListAsync();
+            return await _context.Set<Member>()
+                .FirstOrDefaultAsync(m => m.UserId == userId && !m.IsDeleted);
         }
-
     }
 }

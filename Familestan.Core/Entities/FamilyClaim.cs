@@ -2,21 +2,18 @@ namespace Familestan.Core.Entities
 {
     public class FamilyClaim : BaseEntity
     {
-        public long? FamilyClaimId { get; set; } // شناسه ادعا
-        public long? ClaimantId { get; set; } // شخص ادعا کننده
-        public long? TargetMemberId { get; set; } // هدف ادعا
-        public long? FamilyRelationTypeId { get; set; } // نوع رابطه
+        public long FamilyClaimId { get; set; }
 
-        public bool? IsApproved { get; set; } // آیا تأیید شده؟
-        public bool? IsRejected { get; set; } // آیا رد شده؟
+        public long FamilyClaimClaimantId { get; set; }
+        public required Member FamilyClaimClaimant { get; set; }
 
-        public DateTime? ApprovedAt { get; set; } // زمان تأیید
-        public DateTime? RejectedAt { get; set; } // زمان رد شدن
+        public long FamilyClaimTargetMemberId { get; set; }
+        public required Member FamilyClaimTargetMember { get; set; }
 
-        // ارتباطات
-        public Member? Claimant { get; set; } // کسی که ادعا کرده
-        public Member? TargetMember { get; set; } // فردی که مورد ادعا قرار گرفته
-        public FamilyRelationType? FamilyRelationType { get; set; }
+        public long FamilyClaimRelationTypeId { get; set; }
+        public required FamilyRelationType FamilyClaimRelationType { get; set; }
+
+        public bool FamilyClaimIsVerified { get; set; } = false;
+        public DateTime FamilyClaimCreatedAt { get; set; } = DateTime.UtcNow;
     }
-
 }

@@ -2,15 +2,14 @@ namespace Familestan.Core.Entities
 {
     public class FamilyTree : BaseEntity
     {
-        public long? FamilyTreeId { get; set; }
-        public long? MemberId { get; set; } // صاحب شجره‌نامه
-        public long? RootMemberId { get; set; } // نقطه شروع درخت
+        public long FamilyTreeId { get; set; }
 
-        public bool? IsPublic { get; set; } // آیا این شجره‌نامه عمومی است؟
+        public long FamilyTreeMemberId { get; set; }
+        public required Member FamilyTreeMember { get; set; }
 
-        // ارتباطات
-        public Member? Member { get; set; }
-        public Member? RootMember { get; set; }
+        public long FamilyTreeRootMemberId { get; set; }
+        public required Member FamilyTreeRootMember { get; set; } // ریشه‌ی شجره‌نامه
+
+        public DateTime FamilyTreeCreatedAt { get; set; } = DateTime.UtcNow;
     }
-
 }

@@ -4,6 +4,6 @@ namespace Familestan.Infrastructure.Repositories
 {
     public interface IMemberRepository : IBaseRepository<Member>
     {
-        Task<IEnumerable<Member>> GetFamilyMembersAsync(long userId);
+        Task<Member?> GetByUserIdAsync(long userId);
     }
 }

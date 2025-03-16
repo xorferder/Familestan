@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Familestan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a5ee7cbbd1027a6163362bee0c01411c3157749")]
 [assembly: System.Reflection.AssemblyProductAttribute("Familestan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Familestan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

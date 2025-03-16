@@ -2,9 +2,16 @@ namespace Familestan.Core.Entities
 {
     public class Post : BaseEntity
     {
-        public long? PostMemberId { get; set; }
-        public Member? PostMember { get; set; }
-        public string? PostEncryptedContent { get; set; } = string.Empty;
+        public long PostId { get; set; }
+
+        public long PostMemberId { get; set; }
+        public required Member PostMember { get; set; }
+
+        public required string PostEncryptedContent { get; set; } // محتوای پست رمزنگاری‌شده
+        public bool PostIsPublic { get; set; } = true;
+
+        public DateTime PostCreatedAt { get; set; } = DateTime.UtcNow;
+
         public ICollection<Media> PostMediaFiles { get; set; } = new List<Media>();
         public ICollection<Comment> PostComments { get; set; } = new List<Comment>();
         public ICollection<Like> PostLikes { get; set; } = new List<Like>();

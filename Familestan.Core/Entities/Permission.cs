@@ -1,9 +1,11 @@
 namespace Familestan.Core.Entities
 {
-    public class Permission
+    public class Permission : BaseEntity
     {
-        public long? PermissionId { get; set; }
-        public string? PermissionName { get; set; } = string.Empty;
+        public long PermissionId { get; set; }
+        
+        public required string PermissionName { get; set; } // نام دسترسی
+        
         public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
     }
 }

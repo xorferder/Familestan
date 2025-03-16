@@ -1,11 +1,13 @@
 namespace Familestan.Core.Entities
 {
-    public class RolePermission
+    public class RolePermission : BaseEntity
     {
-        public long? RolePermissionId { get; set; }
-        public long? RoleId { get; set; }
-        public long? PermissionId { get; set; }
-        public Role? Role { get; set; }
-        public Permission? Permission { get; set; }
+        public long RolePermissionId { get; set; }
+
+        public long RolePermissionRoleId { get; set; }
+        public required Role RolePermissionRole { get; set; }
+
+        public long RolePermissionPermissionId { get; set; }
+        public required Permission RolePermissionPermission { get; set; }
     }
 }

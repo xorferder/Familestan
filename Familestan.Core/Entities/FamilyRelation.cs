@@ -1,19 +1,20 @@
 namespace Familestan.Core.Entities
 {
     public class FamilyRelation : BaseEntity
-{
-    public long? FamilyRelationId { get; set; } // شناسه رابطه
-    public long? Member1Id { get; set; } // شخص اول
-    public long? Member2Id { get; set; } // شخص دوم
-    public long? FamilyRelationTypeId { get; set; } // نوع رابطه
+    {
+        public long FamilyRelationId { get; set; }
 
-    public bool? IsConfirmed { get; set; } // آیا تأیید شده است؟
-    public DateTime? ConfirmedAt { get; set; } // زمان تأیید
+        public long FamilyRelationMember1Id { get; set; }
+        public required Member FamilyRelationMember1 { get; set; }
 
-    // ارتباطات
-    public Member? Member1 { get; set; }
-    public Member? Member2 { get; set; }
-    public FamilyRelationType? FamilyRelationType { get; set; }
-}
+        public long FamilyRelationMember2Id { get; set; }
+        public required Member FamilyRelationMember2 { get; set; }
 
+        public long FamilyRelationTypeId { get; set; }
+        public required FamilyRelationType FamilyRelationType { get; set; }
+
+        public bool FamilyRelationIsConfirmed { get; set; } = false;
+
+        public DateTime FamilyRelationCreatedAt { get; set; } = DateTime.UtcNow;
+    }
 }
