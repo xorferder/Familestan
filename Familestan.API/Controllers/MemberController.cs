@@ -26,7 +26,7 @@ namespace Familestan.API.Controllers
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOtp(VerifyOtpDto dto)
         {
-            var result = await _memberService.VerifyOtpAsync(dto);
+            var result = await _memberService.VerifyOtpAsync(dto.Email, dto.OtpCode); // ⬅️ ارسال دو مقدار
             if (!result) return BadRequest("کد OTP اشتباه است یا منقضی شده است.");
             return Ok("حساب شما تأیید شد.");
         }

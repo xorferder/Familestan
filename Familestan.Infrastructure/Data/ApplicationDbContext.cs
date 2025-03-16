@@ -32,6 +32,8 @@ namespace Familestan.Infrastructure.Data
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationSetting> NotificationSettings { get; set; }
+        public DbSet<OtpVerification> OtpVerifications { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +44,7 @@ namespace Familestan.Infrastructure.Data
             modelBuilder.Entity<RolePermission>().HasKey(rp => rp.RolePermissionId);
             modelBuilder.Entity<PostTag>().HasKey(pt => new { pt.PostTagPostId, pt.PostTagTagId });
             modelBuilder.Entity<PostWord>().HasKey(pw => new { pw.PostWordPostId, pw.PostWordWordId });
+            modelBuilder.Entity<OtpVerification>().HasKey(o => o.OtpId);
 
             // 🔹 تنظیم روابط `UserRole`
             modelBuilder.Entity<UserRole>()
@@ -105,15 +108,16 @@ namespace Familestan.Infrastructure.Data
             // 🔹 تنظیم روابط `Follow` (🚀 مشکل جلوگیری از حذف ترتیبی حل شد)
             modelBuilder.Entity<Follow>()
                 .HasOne(f => f.FollowFollower)
-                .WithMany()
+                .WithMany(m => m.MemberFollowers)
                 .HasForeignKey(f => f.FollowFollowerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);  // جلوگیری از حذف ترتیبی
 
             modelBuilder.Entity<Follow>()
                 .HasOne(f => f.FollowFollowing)
-                .WithMany()
+                .WithMany(m => m.MemberFollowing)
                 .HasForeignKey(f => f.FollowFollowingId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);  // جلوگیری از حذف ترتیبی
+
 
             // 🔹 تنظیم روابط `FamilyRelation`
             modelBuilder.Entity<FamilyRelation>()
@@ -191,6 +195,11 @@ namespace Familestan.Infrastructure.Data
                 .HasOne(pw => pw.PostWordWord)
                 .WithMany()
                 .HasForeignKey(pw => pw.PostWordWordId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<OtpVerification>()
+                .HasOne(o => o.OtpMember)
+                .WithMany()
+                .HasForeignKey(o => o.OtpMemberId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
