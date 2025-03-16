@@ -1,45 +1,84 @@
+using BCrypt.Net;
 using Familestan.Core.Entities;
-using Familestan.Infrastructure.UnitOfWork;
-using System.Collections.Generic;
+using Familestan.Core.Models;
+using Familestan.Infrastructure.Repositories;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Familestan.Infrastructure.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMemberRepository _memberRepository;
+        private readonly IConfiguration _configuration;
 
-        public MemberService(IUnitOfWork unitOfWork)
+        public MemberService(IMemberRepository memberRepository, IConfiguration configuration)
         {
-            _unitOfWork = unitOfWork;
+            _memberRepository = memberRepository;
+            _configuration = configuration;
         }
 
-        public async Task<IEnumerable<Member>> GetAllMembersAsync()
+        public async Task<bool> RegisterAsync(RegisterDto dto)
         {
-            return await _unitOfWork.Members.GetAllAsync();
+            // چک کردن وجود ایمیل
+            var existingMember = (await _memberRepository.FindAsync(m => m.MemberEncryptedEmail == dto.Email)).FirstOrDefault();
+            if (existingMember != null)
+            {
+                return false; // ایمیل قبلاً ثبت شده
+            }
+
+            // ایجاد عضو جدید با مقدار پیش‌فرض `"-"` برای `FirstName` و `LastName`
+            var member = new Member
+            {
+                MemberFirstName = string.IsNullOrWhiteSpace(dto.FirstName) ? "-" : dto.FirstName,
+                MemberLastName = string.IsNullOrWhiteSpace(dto.LastName) ? "-" : dto.LastName,
+                MemberEncryptedEmail = dto.Email,
+                MemberPasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password), // هش کردن رمزعبور
+                MemberIsVerified = false,
+                MemberOtpCode = new Random().Next(100000, 999999).ToString(), // ایجاد OTP
+                MemberOtpExpiration = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            await _memberRepository.AddAsync(member);
+
+            // ارسال کد OTP (در آینده این بخش را با ارسال ایمیل ادغام می‌کنیم)
+            Console.WriteLine($"OTP برای {dto.Email}: {member.MemberOtpCode}");
+
+            return true;
         }
 
-        public async Task<Member?> GetMemberByIdAsync(long memberId)
+        public async Task<bool> VerifyOtpAsync(VerifyOtpDto dto)
         {
-            return await _unitOfWork.Members.GetByIdAsync(memberId);
+            var members = await _memberRepository.FindAsync(m => m.MemberEncryptedEmail == dto.Email);
+            var member = members.FirstOrDefault();
+
+            if (member == null || member.MemberOtpCode != dto.OtpCode || member.MemberOtpExpiration < DateTime.UtcNow)
+            {
+                return false; // کد نامعتبر یا منقضی شده
+            }
+
+            member.MemberIsVerified = true;
+            member.MemberOtpCode = null;
+            member.MemberOtpExpiration = null;
+
+            await _memberRepository.UpdateAsync(member);
+            return true;
         }
 
-        public async Task AddMemberAsync(Member member)
+        public async Task<string?> LoginAsync(LoginDto dto)
         {
-            await _unitOfWork.Members.AddAsync(member);
-            await _unitOfWork.CompleteAsync();
+            var member = (await _memberRepository.FindAsync(m => m.MemberEncryptedEmail == dto.Email)).FirstOrDefault();
+
+            if (member == null || !BCrypt.Net.BCrypt.Verify(dto.Password, member.MemberPasswordHash))
+            {
+                return null; // ایمیل یا رمزعبور اشتباه است
+            }
+
+            var jwtService = new JwtService(_configuration);
+            return jwtService.GenerateToken(member);
         }
 
-        public async Task UpdateMemberAsync(Member member)
-        {
-            await _unitOfWork.Members.UpdateAsync(member);
-            await _unitOfWork.CompleteAsync();
-        }
-
-        public async Task DeleteMemberAsync(long memberId)
-        {
-            await _unitOfWork.Members.SoftDeleteAsync(memberId);
-            await _unitOfWork.CompleteAsync();
-        }
     }
 }

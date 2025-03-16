@@ -17,342 +17,373 @@ namespace Familestan.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Familestan.Core.Entities.Comment", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CommentId"));
 
                     b.Property<string>("CommentEncryptedContent")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CommentMemberId")
+                    b.Property<long>("CommentMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("CommentPostId")
+                    b.Property<long>("CommentPostId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PostId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("CommentId");
 
                     b.HasIndex("CommentMemberId");
 
                     b.HasIndex("CommentPostId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyCircle", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FamilyCircleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FamilyCircleId"));
 
-                    b.Property<long?>("ConnectedMemberId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FamilyCircleId")
+                    b.Property<long>("FamilyCircleConnectedMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<DateTime>("FamilyCircleCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("FamilyCircleMemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<long?>("MemberId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FamilyCircleId");
 
-                    b.HasIndex("ConnectedMemberId");
+                    b.HasIndex("FamilyCircleConnectedMemberId");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("FamilyCircleMemberId");
 
                     b.ToTable("FamilyCircles");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyClaim", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FamilyClaimId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FamilyClaimId"));
 
-                    b.Property<DateTime?>("ApprovedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ClaimantId")
+                    b.Property<long>("FamilyClaimClaimantId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("FamilyClaimCreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FamilyClaimId")
+                    b.Property<bool>("FamilyClaimIsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("FamilyClaimRelationTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("FamilyRelationTypeId")
+                    b.Property<long>("FamilyClaimTargetMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool?>("IsApproved")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsRejected")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("RejectedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("TargetMemberId")
+                    b.Property<long?>("MemberId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FamilyClaimId");
 
-                    b.HasIndex("ClaimantId");
+                    b.HasIndex("FamilyClaimClaimantId");
 
-                    b.HasIndex("FamilyRelationTypeId");
+                    b.HasIndex("FamilyClaimRelationTypeId");
 
-                    b.HasIndex("TargetMemberId");
+                    b.HasIndex("FamilyClaimTargetMemberId");
+
+                    b.HasIndex("MemberId");
 
                     b.ToTable("FamilyClaims");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyRelation", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FamilyRelationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FamilyRelationId"));
 
-                    b.Property<DateTime?>("ConfirmedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("FamilyRelationCreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FamilyRelationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("FamilyRelationTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool?>("IsConfirmed")
+                    b.Property<bool>("FamilyRelationIsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("Member1Id")
+                    b.Property<long>("FamilyRelationMember1Id")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("Member2Id")
+                    b.Property<long>("FamilyRelationMember2Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("FamilyRelationTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("MemberId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FamilyRelationId");
+
+                    b.HasIndex("FamilyRelationMember1Id");
+
+                    b.HasIndex("FamilyRelationMember2Id");
 
                     b.HasIndex("FamilyRelationTypeId");
 
-                    b.HasIndex("Member1Id");
-
-                    b.HasIndex("Member2Id");
+                    b.HasIndex("MemberId");
 
                     b.ToTable("FamilyRelations");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyRelationType", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FamilyRelationTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FamilyRelationTypeId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FamilyRelationCategory")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("FamilyRelationTypeId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("FamilyRelationTypeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FamilyRelationTypeId");
 
                     b.ToTable("FamilyRelationTypes");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyTree", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FamilyTreeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FamilyTreeId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FamilyTreeId")
+                    b.Property<DateTime>("FamilyTreeCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("FamilyTreeMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<long>("FamilyTreeRootMemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<bool?>("IsPublic")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("MemberId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("RootMemberId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FamilyTreeId");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("FamilyTreeMemberId");
 
-                    b.HasIndex("RootMemberId");
+                    b.HasIndex("FamilyTreeRootMemberId");
 
                     b.ToTable("FamilyTrees");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Follow", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("FollowId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FollowId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FollowFollowerId")
+                    b.Property<long>("FollowFollowerId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("FollowFollowingId")
+                    b.Property<long>("FollowFollowingId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MemberId1")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("FollowId");
 
                     b.HasIndex("FollowFollowerId");
 
                     b.HasIndex("FollowFollowingId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("MemberId1");
 
                     b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Like", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("LikeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LikeId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("LikeMemberId")
+                    b.Property<long>("LikeMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("LikePostId")
+                    b.Property<long>("LikePostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PostId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("LikeId");
 
                     b.HasIndex("LikeMemberId");
 
                     b.HasIndex("LikePostId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Log", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("LogId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LogId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LogAction")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("LogCreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LogDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogIPAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("LogUserId")
+                    b.Property<long>("LogUserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("LogId");
 
                     b.HasIndex("LogUserId");
 
@@ -361,31 +392,33 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.Media", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("MediaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MediaId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("MediaPostId")
+                    b.Property<long>("MediaPostId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("MediaType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MediaUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("MediaId");
 
                     b.HasIndex("MediaPostId");
 
@@ -394,16 +427,16 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.Member", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("MemberId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MemberId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("MemberEncryptedEmail")
@@ -413,40 +446,133 @@ namespace Familestan.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MemberFirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("MemberIsPrivate")
+                    b.Property<bool>("MemberIsPrivate")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("MemberIsVerified")
+                    b.Property<bool>("MemberIsVerified")
                         .HasColumnType("bit");
 
                     b.Property<string>("MemberLastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("MemberUserId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("MemberOtpCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("MemberOtpExpiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MemberPasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("MemberId");
 
-                    b.HasIndex("MemberUserId");
+                    b.ToTable("Members");
+                });
 
-                    b.ToTable("Member");
+            modelBuilder.Entity("Familestan.Core.Entities.Notification", b =>
+                {
+                    b.Property<long>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("NotificationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("NotificationCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("NotificationIsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NotificationMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("NotificationReceiverId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("NotificationType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("NotificationReceiverId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Familestan.Core.Entities.NotificationSetting", b =>
+                {
+                    b.Property<long>("NotificationSettingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("NotificationSettingId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("NotificationSettingUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("ReceiveCommentNotifications")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ReceiveFollowNotifications")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ReceiveMessageNotifications")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("NotificationSettingId");
+
+                    b.HasIndex("NotificationSettingUserId");
+
+                    b.ToTable("NotificationSettings");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Permission", b =>
                 {
-                    b.Property<long?>("PermissionId")
+                    b.Property<long>("PermissionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("PermissionId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PermissionId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PermissionName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PermissionId");
 
@@ -455,28 +581,40 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.Post", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PostId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("PostCreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PostEncryptedContent")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("PostMemberId")
+                    b.Property<bool>("PostIsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("PostMemberId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostId");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("PostMemberId");
 
@@ -485,55 +623,54 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.PostTag", b =>
                 {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("PostTagPostId")
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    b.Property<long>("PostTagTagId")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("PostTagPostId")
+                    b.Property<long?>("PostId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PostTagTagId")
+                    b.Property<long?>("TagId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostTagPostId", "PostTagTagId");
 
-                    b.HasIndex("PostTagPostId");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("PostTagTagId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("PostTags");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.PostWord", b =>
                 {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("PostWordPostId")
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    b.Property<long>("PostWordWordId")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("PostId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PostWordId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PostWordFrequency")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -541,9 +678,9 @@ namespace Familestan.Migrations
                     b.Property<long?>("WordId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostWordPostId", "PostWordWordId");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("PostWordWordId");
 
                     b.HasIndex("WordId");
 
@@ -552,41 +689,43 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.Role", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RoleId"));
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.HasKey("RoleId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.RolePermission", b =>
                 {
-                    b.Property<long?>("RolePermissionId")
+                    b.Property<long>("RolePermissionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("RolePermissionId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RolePermissionId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<long?>("PermissionId")
                         .HasColumnType("bigint");
@@ -594,282 +733,184 @@ namespace Familestan.Migrations
                     b.Property<long?>("RoleId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("RolePermissionPermissionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RolePermissionRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("RolePermissionId");
 
                     b.HasIndex("PermissionId");
 
                     b.HasIndex("RoleId");
 
+                    b.HasIndex("RolePermissionPermissionId");
+
+                    b.HasIndex("RolePermissionRoleId");
+
                     b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Tag", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("TagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TagId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("TagId");
 
                     b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.User", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserBio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEncryptedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEncryptedPhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserFirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("UserIsPrivate")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("UserIsVerified")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserLastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Familestan.Core.Entities.UserRole", b =>
-                {
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("RoleId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("UserId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("UserRoleId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Familestan.Core.Entities.Word", b =>
-                {
-                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("WordId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("WordText")
+                    b.Property<string>("UserEncryptedEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserEncryptedPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Words");
+                    b.Property<string>("UserFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("UserIsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+            modelBuilder.Entity("Familestan.Core.Entities.UserRole", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("UserRoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserRoleId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserRoleRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserRoleUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserRoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserRoleRoleId");
+
+                    b.HasIndex("UserRoleUserId");
+
+                    b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+            modelBuilder.Entity("Familestan.Core.Entities.Word", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("WordId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("WordId"));
 
-                    b.HasIndex("UserId");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
+                    b.Property<string>("WordText")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.HasKey("WordId");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("Words");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Comment", b =>
                 {
                     b.HasOne("Familestan.Core.Entities.Member", "CommentMember")
                         .WithMany()
-                        .HasForeignKey("CommentMemberId");
+                        .HasForeignKey("CommentMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Familestan.Core.Entities.Post", "CommentPost")
+                        .WithMany()
+                        .HasForeignKey("CommentPostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberComments")
+                        .HasForeignKey("MemberId");
+
+                    b.HasOne("Familestan.Core.Entities.Post", null)
                         .WithMany("PostComments")
-                        .HasForeignKey("CommentPostId");
+                        .HasForeignKey("PostId");
 
                     b.Navigation("CommentMember");
 
@@ -878,85 +919,125 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyCircle", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Member", "ConnectedMember")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyCircleConnectedMember")
                         .WithMany()
-                        .HasForeignKey("ConnectedMemberId");
+                        .HasForeignKey("FamilyCircleConnectedMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.Member", "Member")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyCircleMember")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("FamilyCircleMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("ConnectedMember");
+                    b.Navigation("FamilyCircleConnectedMember");
 
-                    b.Navigation("Member");
+                    b.Navigation("FamilyCircleMember");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyClaim", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Member", "Claimant")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyClaimClaimant")
                         .WithMany()
-                        .HasForeignKey("ClaimantId");
+                        .HasForeignKey("FamilyClaimClaimantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.FamilyRelationType", "FamilyRelationType")
+                    b.HasOne("Familestan.Core.Entities.FamilyRelationType", "FamilyClaimRelationType")
                         .WithMany("FamilyClaims")
-                        .HasForeignKey("FamilyRelationTypeId");
+                        .HasForeignKey("FamilyClaimRelationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.Member", "TargetMember")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyClaimTargetMember")
                         .WithMany()
-                        .HasForeignKey("TargetMemberId");
+                        .HasForeignKey("FamilyClaimTargetMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Claimant");
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberFamilyClaims")
+                        .HasForeignKey("MemberId");
 
-                    b.Navigation("FamilyRelationType");
+                    b.Navigation("FamilyClaimClaimant");
 
-                    b.Navigation("TargetMember");
+                    b.Navigation("FamilyClaimRelationType");
+
+                    b.Navigation("FamilyClaimTargetMember");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyRelation", b =>
                 {
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyRelationMember1")
+                        .WithMany()
+                        .HasForeignKey("FamilyRelationMember1Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyRelationMember2")
+                        .WithMany()
+                        .HasForeignKey("FamilyRelationMember2Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Familestan.Core.Entities.FamilyRelationType", "FamilyRelationType")
                         .WithMany("FamilyRelations")
-                        .HasForeignKey("FamilyRelationTypeId");
+                        .HasForeignKey("FamilyRelationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.Member", "Member1")
-                        .WithMany()
-                        .HasForeignKey("Member1Id");
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberFamilyRelations")
+                        .HasForeignKey("MemberId");
 
-                    b.HasOne("Familestan.Core.Entities.Member", "Member2")
-                        .WithMany()
-                        .HasForeignKey("Member2Id");
+                    b.Navigation("FamilyRelationMember1");
+
+                    b.Navigation("FamilyRelationMember2");
 
                     b.Navigation("FamilyRelationType");
-
-                    b.Navigation("Member1");
-
-                    b.Navigation("Member2");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyTree", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Member", "Member")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyTreeMember")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("FamilyTreeMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.Member", "RootMember")
+                    b.HasOne("Familestan.Core.Entities.Member", "FamilyTreeRootMember")
                         .WithMany()
-                        .HasForeignKey("RootMemberId");
+                        .HasForeignKey("FamilyTreeRootMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Member");
+                    b.Navigation("FamilyTreeMember");
 
-                    b.Navigation("RootMember");
+                    b.Navigation("FamilyTreeRootMember");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Follow", b =>
                 {
                     b.HasOne("Familestan.Core.Entities.Member", "FollowFollower")
                         .WithMany()
-                        .HasForeignKey("FollowFollowerId");
+                        .HasForeignKey("FollowFollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Familestan.Core.Entities.Member", "FollowFollowing")
                         .WithMany()
-                        .HasForeignKey("FollowFollowingId");
+                        .HasForeignKey("FollowFollowingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberFollowers")
+                        .HasForeignKey("MemberId");
+
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberFollowing")
+                        .HasForeignKey("MemberId1");
 
                     b.Navigation("FollowFollower");
 
@@ -967,11 +1048,23 @@ namespace Familestan.Migrations
                 {
                     b.HasOne("Familestan.Core.Entities.Member", "LikeMember")
                         .WithMany()
-                        .HasForeignKey("LikeMemberId");
+                        .HasForeignKey("LikeMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Familestan.Core.Entities.Post", "LikePost")
+                        .WithMany()
+                        .HasForeignKey("LikePostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberLikes")
+                        .HasForeignKey("MemberId");
+
+                    b.HasOne("Familestan.Core.Entities.Post", null)
                         .WithMany("PostLikes")
-                        .HasForeignKey("LikePostId");
+                        .HasForeignKey("PostId");
 
                     b.Navigation("LikeMember");
 
@@ -982,7 +1075,9 @@ namespace Familestan.Migrations
                 {
                     b.HasOne("Familestan.Core.Entities.User", "LogUser")
                         .WithMany()
-                        .HasForeignKey("LogUserId");
+                        .HasForeignKey("LogUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LogUser");
                 });
@@ -991,38 +1086,71 @@ namespace Familestan.Migrations
                 {
                     b.HasOne("Familestan.Core.Entities.Post", "MediaPost")
                         .WithMany("PostMediaFiles")
-                        .HasForeignKey("MediaPostId");
+                        .HasForeignKey("MediaPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("MediaPost");
                 });
 
-            modelBuilder.Entity("Familestan.Core.Entities.Member", b =>
+            modelBuilder.Entity("Familestan.Core.Entities.Notification", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.User", "MemberUser")
-                        .WithMany("UserMembers")
-                        .HasForeignKey("MemberUserId");
+                    b.HasOne("Familestan.Core.Entities.Member", "NotificationReceiver")
+                        .WithMany()
+                        .HasForeignKey("NotificationReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("MemberUser");
+                    b.Navigation("NotificationReceiver");
+                });
+
+            modelBuilder.Entity("Familestan.Core.Entities.NotificationSetting", b =>
+                {
+                    b.HasOne("Familestan.Core.Entities.Member", "NotificationSettingUser")
+                        .WithMany()
+                        .HasForeignKey("NotificationSettingUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NotificationSettingUser");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Post", b =>
                 {
+                    b.HasOne("Familestan.Core.Entities.Member", null)
+                        .WithMany("MemberPosts")
+                        .HasForeignKey("MemberId");
+
                     b.HasOne("Familestan.Core.Entities.Member", "PostMember")
                         .WithMany()
-                        .HasForeignKey("PostMemberId");
+                        .HasForeignKey("PostMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PostMember");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.PostTag", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Post", "PostTagPost")
+                    b.HasOne("Familestan.Core.Entities.Post", null)
                         .WithMany("PostPostTags")
-                        .HasForeignKey("PostTagPostId");
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Familestan.Core.Entities.Post", "PostTagPost")
+                        .WithMany()
+                        .HasForeignKey("PostTagPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Familestan.Core.Entities.Tag", "PostTagTag")
+                        .WithMany()
+                        .HasForeignKey("PostTagTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Tag", null)
                         .WithMany("TagPostTags")
-                        .HasForeignKey("PostTagTagId");
+                        .HasForeignKey("TagId");
 
                     b.Navigation("PostTagPost");
 
@@ -1031,95 +1159,79 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.PostWord", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Post", "Post")
+                    b.HasOne("Familestan.Core.Entities.Post", "PostWordPost")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostWordPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.Word", "Word")
+                    b.HasOne("Familestan.Core.Entities.Word", "PostWordWord")
                         .WithMany()
+                        .HasForeignKey("PostWordWordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Familestan.Core.Entities.Word", null)
+                        .WithMany("WordPostWords")
                         .HasForeignKey("WordId");
 
-                    b.Navigation("Post");
+                    b.Navigation("PostWordPost");
 
-                    b.Navigation("Word");
+                    b.Navigation("PostWordWord");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.RolePermission", b =>
                 {
-                    b.HasOne("Familestan.Core.Entities.Permission", "Permission")
+                    b.HasOne("Familestan.Core.Entities.Permission", null)
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId");
 
-                    b.HasOne("Familestan.Core.Entities.Role", "Role")
+                    b.HasOne("Familestan.Core.Entities.Role", null)
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId");
 
-                    b.Navigation("Permission");
+                    b.HasOne("Familestan.Core.Entities.Permission", "RolePermissionPermission")
+                        .WithMany()
+                        .HasForeignKey("RolePermissionPermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Role");
+                    b.HasOne("Familestan.Core.Entities.Role", "RolePermissionRole")
+                        .WithMany()
+                        .HasForeignKey("RolePermissionRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RolePermissionPermission");
+
+                    b.Navigation("RolePermissionRole");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.UserRole", b =>
                 {
                     b.HasOne("Familestan.Core.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Familestan.Core.Entities.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId1");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Familestan.Core.Entities.User", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("Familestan.Core.Entities.Role", "UserRoleRole")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserRoleRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Familestan.Core.Entities.User", "User")
+                    b.HasOne("Familestan.Core.Entities.User", "UserRoleUser")
                         .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
-                {
-                    b.HasOne("Familestan.Core.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("UserRoleUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
-                {
-                    b.HasOne("Familestan.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.Navigation("UserRoleRole");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
-                {
-                    b.HasOne("Familestan.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
-                {
-                    b.HasOne("Familestan.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("UserRoleUser");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.FamilyRelationType", b =>
@@ -1127,6 +1239,23 @@ namespace Familestan.Migrations
                     b.Navigation("FamilyClaims");
 
                     b.Navigation("FamilyRelations");
+                });
+
+            modelBuilder.Entity("Familestan.Core.Entities.Member", b =>
+                {
+                    b.Navigation("MemberComments");
+
+                    b.Navigation("MemberFamilyClaims");
+
+                    b.Navigation("MemberFamilyRelations");
+
+                    b.Navigation("MemberFollowers");
+
+                    b.Navigation("MemberFollowing");
+
+                    b.Navigation("MemberLikes");
+
+                    b.Navigation("MemberPosts");
                 });
 
             modelBuilder.Entity("Familestan.Core.Entities.Permission", b =>
@@ -1159,7 +1288,12 @@ namespace Familestan.Migrations
 
             modelBuilder.Entity("Familestan.Core.Entities.User", b =>
                 {
-                    b.Navigation("UserMembers");
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Familestan.Core.Entities.Word", b =>
+                {
+                    b.Navigation("WordPostWords");
                 });
 #pragma warning restore 612, 618
         }

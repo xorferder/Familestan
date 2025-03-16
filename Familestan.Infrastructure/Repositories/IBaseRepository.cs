@@ -9,8 +9,8 @@ namespace Familestan.Infrastructure.Repositories
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task SoftDeleteAsync(long id);  // ✅ حذف نرم
-        Task HardDeleteAsync(long id);  // ✅ حذف کامل
+        Task SoftDeleteAsync(long id);
+        Task DeleteAsync(T entity);
         Task SaveChangesAsync();
     }
 }

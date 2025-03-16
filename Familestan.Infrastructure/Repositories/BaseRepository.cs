@@ -70,14 +70,10 @@ namespace Familestan.Infrastructure.Repositories
             }
         }
 
-        public async Task HardDeleteAsync(long id)
+        public async Task DeleteAsync(T entity)
         {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity != null)
-            {
-                _dbSet.Remove(entity);
-                await SaveChangesAsync();
-            }
+            _dbSet.Remove(entity);
+            await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()

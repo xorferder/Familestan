@@ -13,6 +13,11 @@ namespace Familestan.Core.Entities
         public bool MemberIsVerified { get; set; } = false;
         public bool MemberIsPrivate { get; set; } = false;
 
+        // 🟢 فیلدهای لاگین و امنیتی که در `MemberService` استفاده شده بودند:
+        public string? MemberPasswordHash { get; set; }
+        public string? MemberOtpCode { get; set; }
+        public DateTime? MemberOtpExpiration { get; set; }
+
         public ICollection<Post> MemberPosts { get; set; } = new List<Post>();
         public ICollection<Comment> MemberComments { get; set; } = new List<Comment>();
         public ICollection<Like> MemberLikes { get; set; } = new List<Like>();

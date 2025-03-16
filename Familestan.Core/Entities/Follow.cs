@@ -1,15 +1,17 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Familestan.Core.Entities
 {
     public class Follow : BaseEntity
     {
         public long FollowId { get; set; }
 
-        public long FollowFollowerId { get; set; } // کسی که فالو می‌کند
+        [ForeignKey(nameof(FollowFollower))]
+        public long FollowFollowerId { get; set; }
         public required Member FollowFollower { get; set; }
 
-        public long FollowFollowingId { get; set; } // کسی که فالو شده
+        [ForeignKey(nameof(FollowFollowing))]
+        public long FollowFollowingId { get; set; }
         public required Member FollowFollowing { get; set; }
-
-        public DateTime FollowCreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
