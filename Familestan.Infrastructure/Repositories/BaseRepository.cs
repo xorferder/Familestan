@@ -24,10 +24,9 @@ namespace Familestan.Infrastructure.Repositories
         {
             var query = _dbSet.AsQueryable();
 
-            // اگر مدل فیلد IsDeleted داشته باشد، آن را در فیلتر اعمال کن
             if (typeof(T).GetProperty("IsDeleted") != null)
             {
-                query = query.Where(e => EF.Property<bool?>(e, "IsDeleted") != true);
+                query = query.Where(e => EF.Property<bool>(e, "IsDeleted") == false);
             }
 
             return await query.ToListAsync();
@@ -39,7 +38,7 @@ namespace Familestan.Infrastructure.Repositories
 
             if (typeof(T).GetProperty("IsDeleted") != null)
             {
-                query = query.Where(e => EF.Property<bool?>(e, "IsDeleted") != true);
+                query = query.Where(e => EF.Property<bool>(e, "IsDeleted") == false);
             }
 
             return await query.ToListAsync();
@@ -57,7 +56,6 @@ namespace Familestan.Infrastructure.Repositories
             await SaveChangesAsync();
         }
 
-        // ✅ حذف نرم (Soft Delete)
         public async Task SoftDeleteAsync(long id)
         {
             var entity = await _dbSet.FindAsync(id);
@@ -72,7 +70,6 @@ namespace Familestan.Infrastructure.Repositories
             }
         }
 
-        // ✅ حذف کامل (Hard Delete)
         public async Task HardDeleteAsync(long id)
         {
             var entity = await _dbSet.FindAsync(id);

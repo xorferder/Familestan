@@ -1,13 +1,26 @@
-using Familestan.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using Familestan.Infrastructure.UnitOfWork;
+using Familestan.Infrastructure.Repositories;
+using Familestan.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// ثبت UnitOfWork و Repositoryها در Dependency Injection
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ILikeRepository, LikeRepository>();
+builder.Services.AddScoped<IFollowRepository, FollowRepository>();
+builder.Services.AddScoped<IFamilyRelationRepository, FamilyRelationRepository>();
+builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IPostTagRepository, PostTagRepository>();
+builder.Services.AddScoped<IPostWordRepository, PostWordRepository>();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 var app = builder.Build();
 
