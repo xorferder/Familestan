@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Familestan.Infrastructure.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -17,15 +17,18 @@ namespace Familestan.Infrastructure.Repositories
 
         public async Task<T?> GetByIdAsync(long id)
         {
-            return await _dbSet.FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted == false);
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var query = _dbSet.AsQueryable();
 
-            // فیلتر کردن به شرط IsDeleted برابر false
-            query = query.Where(e => e.IsDeleted == false);
+            // اگر مدل فیلد IsDeleted داشته باشد، آن را در فیلتر اعمال کن
+            if (typeof(T).GetProperty("IsDeleted") != null)
+            {
+                query = query.Where(e => EF.Property<bool?>(e, "IsDeleted") != true);
+            }
 
             return await query.ToListAsync();
         }
@@ -34,8 +37,10 @@ namespace Familestan.Infrastructure.Repositories
         {
             var query = _dbSet.Where(predicate);
 
-            // فیلتر کردن به شرط IsDeleted برابر false
-            query = query.Where(e => e.IsDeleted == false);
+            if (typeof(T).GetProperty("IsDeleted") != null)
+            {
+                query = query.Where(e => EF.Property<bool?>(e, "IsDeleted") != true);
+            }
 
             return await query.ToListAsync();
         }
@@ -52,12 +57,28 @@ namespace Familestan.Infrastructure.Repositories
             await SaveChangesAsync();
         }
 
+        // ✅ حذف نرم (Soft Delete)
         public async Task SoftDeleteAsync(long id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
-                entity.IsDeleted = true;
+                var isDeletedProperty = entity.GetType().GetProperty("IsDeleted");
+                if (isDeletedProperty != null)
+                {
+                    isDeletedProperty.SetValue(entity, true);
+                    await SaveChangesAsync();
+                }
+            }
+        }
+
+        // ✅ حذف کامل (Hard Delete)
+        public async Task HardDeleteAsync(long id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
                 await SaveChangesAsync();
             }
         }

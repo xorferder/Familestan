@@ -8,10 +8,11 @@ namespace Familestan.Infrastructure.Repositories
     {
         public MemberRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<Member?> GetByUserIdAsync(long userId)
+        public async Task<IEnumerable<Member>> GetAllActiveMembersAsync()
         {
-            return await _context.Set<Member>()
-                .FirstOrDefaultAsync(m => m.UserId == userId && !m.IsDeleted);
+            return await _context.Members
+                .Where(m => !m.IsDeleted)
+                .ToListAsync();
         }
     }
 }

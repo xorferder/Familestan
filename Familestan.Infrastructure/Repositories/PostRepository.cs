@@ -10,7 +10,7 @@ namespace Familestan.Infrastructure.Repositories
 
         public async Task<IEnumerable<Post>> GetPostsByMemberIdAsync(long memberId)
         {
-            return await _dbSet.Where(p => p.PostMemberId == memberId && (p.IsDeleted == false)).ToListAsync();
+            return await _context.Posts.Where(p => p.PostMemberId == memberId && (p.IsDeleted == false)).ToListAsync();
         }
 
     }

@@ -2,13 +2,8 @@ using Familestan.Core.Entities;
 
 namespace Familestan.Infrastructure.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User?> GetByIdAsync(long id);
-        Task<IEnumerable<User>> GetAllAsync();
-        Task AddAsync(User user);
-        Task UpdateAsync(User user);
-        Task DeleteAsync(long id);
-        Task SaveChangesAsync();
+        Task<User?> GetByEmailAsync(string encryptedEmail);
     }
 }

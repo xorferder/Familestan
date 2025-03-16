@@ -140,3 +140,4 @@
 /Users/FARHAD/Farhad/Project/NetCore/Familestan/obj/Debug/net8.0/Familestan.pdb
 /Users/FARHAD/Farhad/Project/NetCore/Familestan/obj/Debug/net8.0/Familestan.genruntimeconfig.cache
 /Users/FARHAD/Farhad/Project/NetCore/Familestan/obj/Debug/net8.0/ref/Familestan.dll
+/Users/FARHAD/Farhad/Project/NetCore/Familestan/obj/Debug/net8.0/Familestan.sourcelink.json
