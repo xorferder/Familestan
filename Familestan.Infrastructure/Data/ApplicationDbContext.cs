@@ -29,6 +29,9 @@ namespace Familestan.Infrastructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationSetting> NotificationSettings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
