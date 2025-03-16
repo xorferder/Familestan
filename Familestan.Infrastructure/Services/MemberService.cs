@@ -12,15 +12,19 @@ namespace Familestan.Infrastructure.Services
     public class MemberService : IMemberService
     {
         private readonly IMemberRepository _memberRepository;
-        private readonly OtpVerificationRepository _otpVerificationRepository;
         private readonly IConfiguration _configuration;
+        private readonly IOtpVerificationRepository _otpVerificationRepository;
 
-        public MemberService(IMemberRepository memberRepository, IConfiguration configuration, OtpVerificationRepository otpVerificationRepository)
+        public MemberService(
+            IMemberRepository memberRepository,
+            IOtpVerificationRepository otpVerificationRepository,
+            IConfiguration configuration)
         {
             _memberRepository = memberRepository;
-            _configuration = configuration;
             _otpVerificationRepository = otpVerificationRepository;
+            _configuration = configuration;
         }
+
 
         public async Task<bool> RegisterAsync(RegisterDto dto)
         {

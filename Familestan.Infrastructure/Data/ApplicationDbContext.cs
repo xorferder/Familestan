@@ -196,6 +196,7 @@ namespace Familestan.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(pw => pw.PostWordWordId)
                 .OnDelete(DeleteBehavior.Cascade);
+                
             modelBuilder.Entity<OtpVerification>()
                 .HasOne(o => o.OtpMember)
                 .WithMany()

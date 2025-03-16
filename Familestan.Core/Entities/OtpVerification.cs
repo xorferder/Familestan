@@ -1,15 +1,16 @@
 namespace Familestan.Core.Entities
 {
-    public class OtpVerification : BaseEntity
+    public class OtpVerification
     {
-        public long OtpId { get; set; }
-        public required string OtpCode { get; set; }
-        public required string OtpType { get; set; } // "Email" یا "Phone"
-        public required string OtpTarget { get; set; } // ایمیل یا موبایل
-        public long? OtpMemberId { get; set; } // ممکنه برای عضو نشده‌ها باشه
-        public DateTime OtpExpiration { get; set; }
-        public bool OtpIsUsed { get; set; } = false;
+        public long OtpId { get; set; } // کلید اصلی
+        public string OtpCode { get; set; } = string.Empty; // کد OTP
+        public string OtpTarget { get; set; } = string.Empty; // ایمیل یا موبایل
+        public string OtpType { get; set; } = "Email"; // نوع OTP (ایمیل یا موبایل)
+        public DateTime OtpExpiration { get; set; } // تاریخ انقضا
+        public bool OtpIsUsed { get; set; } = false; // آیا استفاده شده است؟
 
-        public Member? OtpMember { get; set; } // ارتباط با جدول Member
+        // رابطه با Member
+        public long? OtpMemberId { get; set; }
+        public Member? OtpMember { get; set; }
     }
 }

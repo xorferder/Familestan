@@ -11,10 +11,6 @@ namespace Familestan.Core.Entities
     public bool MemberIsPrivate { get; set; } = false;
     public string? MemberPasswordHash { get; set; }  // پسورد هش‌شده
 
-    // ⬇️ این دو فیلد باید حذف شوند
-    // public string? MemberOtpCode { get; set; }
-    // public DateTime? MemberOtpExpiration { get; set; }
-
     public ICollection<Post> MemberPosts { get; set; } = new List<Post>();
     public ICollection<Comment> MemberComments { get; set; } = new List<Comment>();
     public ICollection<Like> MemberLikes { get; set; } = new List<Like>();

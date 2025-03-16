@@ -35,8 +35,21 @@ builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
 // ✅ تنظیمات دیتابیس (اتصال به SQL Server)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("⚠️ Connection string for database is not set!");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
+
+// ✅ بررسی مقدار `Jwt:Key` و جلوگیری از مقدار null
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey) || jwtKey.Length < 32)
+{
+    throw new InvalidOperationException("⚠️ JWT Key must be at least 32 characters long!");
+}
 
 // ✅ تنظیمات احراز هویت JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,15 +63,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
     });
 
 builder.Services.AddAuthorization();
 
+// ✅ تنظیم URL های اجرای پروژه
 builder.WebHost.UseUrls("https://localhost:7083;http://localhost:5153");
 
 var app = builder.Build();
+
+// ✅ بررسی اتصال دیتابیس هنگام راه‌اندازی
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if (!dbContext.Database.CanConnect())
+    {
+        Console.WriteLine("⚠️ Database connection failed!");
+    }
+    else
+    {
+        Console.WriteLine("✅ Database connection established successfully.");
+    }
+}
 
 // ✅ تنظیمات Middleware و Request Pipeline
 if (app.Environment.IsDevelopment())
@@ -71,7 +99,6 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-Console.WriteLine($"Jwt Key: {builder.Configuration["Jwt:Key"]}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
